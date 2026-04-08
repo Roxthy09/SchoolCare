@@ -102,7 +102,7 @@ $isOrangtua = auth()->user()->peran === 'orangtua';
                     @include('tanggapan._form')
                     @endif
                 </div>
-                @if($pengaduan->status == 'selesai' && $pengaduan->konfirmasi_orangtua == 'menunggu')
+                @if($pengaduan->status == 'selesai' && ($pengaduan->konfirmasi_orangtua == 'menunggu' || is_null($pengaduan->konfirmasi_orangtua)))
 
                 <div class="card mt-4">
                     <div class="card-body">
@@ -128,21 +128,39 @@ $isOrangtua = auth()->user()->peran === 'orangtua';
 
                 <div class="card mt-4">
                     <div class="card-body">
+
+                        {{-- ✅ CEK: SUDAH ADA RATING USER --}}
+                        @if($pengaduan->rating && $pengaduan->rating->user_id == auth()->id())
+
+                        <h5>Penilaian Anda</h5>
+
+                        <div class="mb-2 text-warning">
+                            @for($i = 1; $i <= 5; $i++)
+                                <i class="fa {{ $i <= $pengaduan->rating->rating ? 'fa-star' : 'fa-star-o' }}"></i>
+                                @endfor
+                        </div>
+
+                        <p class="mb-0">
+                            {{ $pengaduan->rating->komentar ?? '-' }}
+                        </p>
+
+                        @else
+
+                        {{-- ❌ BELUM ADA → FORM --}}
                         <h5>Beri Penilaian</h5>
 
                         <form action="{{ route('rating.store', $pengaduan->pengaduan_id) }}" method="POST">
                             @csrf
 
-                            <div class="mb-2">
-                                <label>Rating</label>
-                                <select name="rating" class="form-control">
-                                    <option value="">Pilih</option>
-                                    <option value="5">⭐⭐⭐⭐⭐</option>
-                                    <option value="4">⭐⭐⭐⭐</option>
-                                    <option value="3">⭐⭐⭐</option>
-                                    <option value="2">⭐⭐</option>
-                                    <option value="1">⭐</option>
-                                </select>
+                            <div class="mb-3">
+                                <label class="mb-2">Rating</label>
+
+                                <div class="star-rating">
+                                    @for($i = 5; $i >= 1; $i--)
+                                    <input type="radio" name="rating" id="star{{ $i }}" value="{{ $i }}" required>
+                                    <label for="star{{ $i }}">★</label>
+                                    @endfor
+                                </div>
                             </div>
 
                             <div class="mb-2">
@@ -152,6 +170,9 @@ $isOrangtua = auth()->user()->peran === 'orangtua';
 
                             <button class="btn btn-primary">Kirim Rating</button>
                         </form>
+
+                        @endif
+
                     </div>
                 </div>
 

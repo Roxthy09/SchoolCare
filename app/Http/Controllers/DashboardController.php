@@ -112,50 +112,5 @@ class DashboardController extends Controller
         abort(403);
     }
 
-    public function indexApi()
-{
-    $user = Auth::user();
-    $uid  = $user->user_id;
- 
-    $stats = Cache::remember("dashboard_{$user->peran}_stats_$uid", 60, function () use ($user, $uid) {
-        $query = Pengaduan::withTrashed();
-        if ($user->peran === 'orangtua') {
-            $query->where('user_id', $uid);
-        }
-        return $query->selectRaw('status, COUNT(*) as total')
-            ->groupBy('status')
-            ->pluck('total', 'status');
-    });
- 
-    $pengaduanTerbaru = [];
-    if (in_array($user->peran, ['orangtua'])) {
-        $pengaduanTerbaru = Pengaduan::withTrashed()
-            ->where('user_id', $uid)
-            ->latest('tanggal_dibuat')
-            ->limit(5)
-            ->get(['judul', 'status', 'tanggal_dibuat', 'kategori_id'])
-            ->map(function ($p) {
-                return [
-                    'judul'         => $p->judul,
-                    'status'        => $p->status,         // 'tertunda' | 'dalam_proses' | 'selesai'
-                    'tanggal_dibuat'=> $p->tanggal_dibuat->format('d M Y'),
-                    'kategori'      => $p->kategori->nama_kategori ?? '',
-                ];
-            });
-    }
- 
-    return response()->json([
-        'user' => [
-            'name'  => $user->name,
-            'peran' => $user->peran,   // 'admin' | 'petugas' | 'orangtua'
-        ],
-        'stats' => [
-            'total'        => $stats->sum(),
-            'dalam_proses' => $stats['dalam_proses'] ?? 0,
-            'selesai'      => $stats['selesai']       ?? 0,
-            'tertunda'     => $stats['tertunda']      ?? 0,
-        ],
-        'pengaduan_terbaru' => $pengaduanTerbaru,
-    ]);
-}
+    
 }

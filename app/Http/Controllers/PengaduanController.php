@@ -55,6 +55,7 @@ class PengaduanController extends Controller
             'lampiran'       => $fileName,
             'status'         => 'tertunda',
             'tanggal_dibuat' => now(),
+            'konfirmasi_orangtua' => 'menunggu',
         ]);
 
         RiwayatStatus::create([
@@ -83,7 +84,7 @@ class PengaduanController extends Controller
 
     public function show($id)
     {
-        $pengaduan = Pengaduan::with(['kategori', 'tanggapans.pengguna'])
+        $pengaduan = Pengaduan::with(['kategori', 'tanggapans.pengguna', 'rating'])
             ->where('pengaduan_id', $id)
             ->firstOrFail();
 
@@ -107,6 +108,11 @@ class PengaduanController extends Controller
 
         $pengaduan->update([
             'status' => $request->status,
+
+            // 🔥 TAMBAHAN PENTING
+            'konfirmasi_orangtua' => $request->status == 'selesai'
+                ? 'menunggu'
+                : $pengaduan->konfirmasi_orangtua
         ]);
 
         RiwayatStatus::create([

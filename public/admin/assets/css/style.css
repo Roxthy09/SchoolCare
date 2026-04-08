@@ -26360,4 +26360,30 @@ body {
 .btn {
     border-radius: 10px;
 }
+
+.star-rating {
+    direction: rtl;
+    display: inline-flex;
+    gap: 5px;
+}
+
+.star-rating input {
+    display: none;
+}
+
+.star-rating label {
+    font-size: 28px;
+    color: #ccc;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+    color: gold;
+}
+
+.star-rating input:checked ~ label {
+    color: gold;
+}
 /*# sourceMappingURL=maps/style.css.map */

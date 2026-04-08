@@ -23,7 +23,7 @@
   <!-- End layout styles -->
   <link rel="shortcut icon" href="{{asset('admin/assets/images/favicon.png')}}" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-
+  
 </head>
 
 <body>
@@ -78,7 +78,13 @@
       });
     }
   </script>
-
+  <script>
+    document.querySelectorAll('.star-rating input').forEach((star) => {
+      star.addEventListener('change', function() {
+        console.log("Rating dipilih:", this.value);
+      });
+    });
+  </script>
 </body>
 
 </html>

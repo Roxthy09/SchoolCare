@@ -97,14 +97,14 @@
                             <span class="text-muted">-</span>
                             @endif
                         </td>
-                        <td>@if($pengaduan->rating)
-                            <div class="card mt-3">
-                                <div class="card-body">
-                                    <h6>Penilaian Anda:</h6>
-                                    <p>{{ str_repeat('⭐', $pengaduan->rating->rating) }}</p>
-                                    <p>{{ $pengaduan->rating->komentar }}</p>
-                                </div>
+                        <td class="text-center">
+                            @if($item->rating)
+                            <div>
+                                <p class="mb-1">{{ str_repeat('⭐', $item->rating->rating) }}</p>
+                                <small class="text-muted">{{ $item->rating->komentar }}</small>
                             </div>
+                            @else
+                            <span class="text-muted">-</span>
                             @endif
                         </td>
 

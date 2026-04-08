@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -12,12 +13,10 @@ class RatingController extends Controller
     {
         $pengaduan = Pengaduan::findOrFail($id);
 
-        // 🔒 hanya pemilik
-        if ($pengaduan->user_id != Auth::user()->user_id) {
+        if ($pengaduan->user_id != Auth::id()) {
             abort(403);
         }
 
-        // ❗ hanya boleh jika sudah dikonfirmasi sesuai
         if ($pengaduan->konfirmasi_orangtua != 'sesuai') {
             return back()->with('error', 'Konfirmasi dulu sebelum memberi rating!');
         }
@@ -30,7 +29,7 @@ class RatingController extends Controller
         Rating::updateOrCreate(
             [
                 'pengaduan_id' => $id,
-                'user_id' => Auth::user()->user_id
+                'user_id' => Auth::id()
             ],
             [
                 'rating' => $request->rating,
