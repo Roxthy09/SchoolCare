@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\OrangtuaImport;
 
-class OrangtuaController extends Controller
+class OrangTuaController extends Controller
 {
     public function index()
     {
