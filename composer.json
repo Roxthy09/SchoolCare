@@ -14,7 +14,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",
         "laravel/ui": "^4.6",
-        "maatwebsite/excel": "4.x-dev",
+        "maatwebsite/excel": "^3.1",
         "rap2hpoutre/laravel-log-viewer": "^2.5"
     },
     "require-dev": {
@@ -81,8 +81,9 @@
     },
     "config": {
         "platform": {
-            "php": "8.3.0"
+            "php": "8.2.0"
         },
+        "platform-check": false,
         "check-platform-reqs": false,
         "optimize-autoloader": true,
         "sort-packages": true,
