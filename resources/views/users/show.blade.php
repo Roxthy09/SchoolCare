@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-
+@section('title', 'Detail User')
 @section('content')
 <div class="container">
     <h4>Detail User</h4>

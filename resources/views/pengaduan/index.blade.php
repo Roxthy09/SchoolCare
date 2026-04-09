@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-
+@section('title', 'Data Pengaduan')
 @section('content')
 <div class="container">
 

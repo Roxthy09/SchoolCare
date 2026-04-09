@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-
+@section('title', 'Edit Pengaduan')
 @section('content')
 <div class="container">
     <h4>Edit Pengaduan</h4>

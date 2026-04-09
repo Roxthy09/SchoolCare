@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-
+@section('title', 'Edit Data Orangtua')
 @section('content')
 <div class="container-fluid">
 

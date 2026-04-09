@@ -1,4 +1,5 @@
 @extends('layouts.admin')
+@section('title', 'Dashboard Petugas')
 @section('content')
 
 <div class="container-fluid">

@@ -197,12 +197,3 @@ Route::middleware(['auth', 'role:orangtua'])
         Route::post('/rating/{id}', [RatingController::class, 'store'])
             ->name('rating.store');
     });
-
-    Route::get('/fix-php', function() {
-    $file = base_path('vendor/composer/platform_check.php');
-    if (file_exists($file)) {
-        unlink($file);
-        return "File platform_check berhasil dihapus! Silakan buka halaman utama.";
-    }
-    return "File sudah tidak ada.";
-});
