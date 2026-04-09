@@ -3,7 +3,7 @@
 
 <div class="container-fluid">
 
-    <h4 class="fw-bold mb-1">Dashboard Admin</h4>
+    <h4 class="fw-bold mb-1">Dashboard </h4>
     <small class="text-muted">Selamat datang, <b>{{ auth()->user()->name }}</b></small>
 
     {{-- STAT --}}
