@@ -25,6 +25,7 @@ class Pengaduan extends Model
         'lampiran',
         'status',
         'konfirmasi_orangtua',
+        'alasan_ditolak',
         'tanggal_dibuat',
         'tanggal_diubah',
     ];

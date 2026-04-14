@@ -177,6 +177,12 @@ $isOrangtua = auth()->user()->peran === 'orangtua';
                 </div>
 
                 @endif
+                @if($pengaduan->status == 'ditolak')
+                <div class="alert alert-danger mt-3">
+                    <strong>Alasan Penolakan:</strong><br>
+                    {{ $pengaduan->alasan_ditolak }}
+                </div>
+                @endif
             </div>
 
             {{-- RIWAYAT STATUS --}}

@@ -52,6 +52,7 @@
   <!-- plugins:js -->
   <script src="{{asset('admin/assets/vendors/js/vendor.bundle.base.js')}}"></script>
   <!-- endinject -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <!-- Plugin js for this page -->
   <script src="{{asset('admin/assets/vendors/chart.js/chart.umd.js')}}"></script>
   <script src="{{asset('admin/assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>

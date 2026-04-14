@@ -881,13 +881,13 @@
         align-items: center;
         gap: 6px;
         font-size: 13px;
-        color: #6b7280;
+        color: #000000;
         text-decoration: none;
         transition: color 0.15s;
     }
 
     .pg-btn-back:hover {
-        color: #3b82f6;
+        color: #000000;
     }
 
     /* Sidebar */

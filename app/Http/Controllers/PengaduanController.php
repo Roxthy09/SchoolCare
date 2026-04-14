@@ -58,14 +58,15 @@ class PengaduanController extends Controller
             'konfirmasi_orangtua' => 'menunggu',
         ]);
 
+        // 🔥 riwayat awal
         RiwayatStatus::create([
-            'riwayat_id'   => null, // auto-increment
             'pengaduan_id' => $pengaduan->pengaduan_id,
             'status'       => 'tertunda',
             'tanggal_ubah' => now(),
             'diubah_oleh'  => auth()->user()->user_id,
         ]);
 
+        // 🔔 notifikasi ke admin & petugas
         $petugas = User::whereIn('peran', ['admin', 'petugas'])->get();
 
         foreach ($petugas as $user) {
@@ -88,6 +89,7 @@ class PengaduanController extends Controller
             ->where('pengaduan_id', $id)
             ->firstOrFail();
 
+        // 🔒 orang tua hanya bisa lihat miliknya
         if (
             auth()->user()->peran === 'orangtua' &&
             $pengaduan->user_id !== auth()->user()->user_id
@@ -108,26 +110,25 @@ class PengaduanController extends Controller
 
         $pengaduan->update([
             'status' => $request->status,
-
-            // 🔥 TAMBAHAN PENTING
             'konfirmasi_orangtua' => $request->status == 'selesai'
                 ? 'menunggu'
                 : $pengaduan->konfirmasi_orangtua
         ]);
 
+        // 🔥 simpan riwayat
         RiwayatStatus::create([
-            'riwayat_id'   => null, // auto-increment
             'pengaduan_id' => $pengaduan->pengaduan_id,
             'status'       => $request->status,
             'tanggal_ubah' => now(),
             'diubah_oleh'  => auth()->user()->user_id,
         ]);
 
-        // 🔔 NOTIFIKASI KE ORANGTUA
+        // 🔔 notifikasi ke orang tua
         Notifikasi::create([
             'user_id'      => $pengaduan->user_id,
             'pengaduan_id' => $pengaduan->pengaduan_id,
-            'pesan'        => 'Status pengaduan Anda berubah menjadi ' . ucfirst(str_replace('_', ' ', $request->status))
+            'pesan'        => 'Status pengaduan Anda menjadi ' . ucfirst(str_replace('_', ' ', $request->status)),
+            'tanggal_dikirim' => now(),
         ]);
 
         return back()->with('success', 'Status berhasil diperbarui');
@@ -137,27 +138,32 @@ class PengaduanController extends Controller
     {
         $user = auth()->user();
 
-        // 🔒 ADMIN (hapus soft delete saja)
+        // 🔒 ADMIN → soft delete
         if ($user->peran === 'admin') {
             $pengaduan->delete();
         }
 
-        // 🔒 ORANGTUA = BATALKAN
+        // 🔒 ORANG TUA → batalkan
         elseif ($user->peran === 'orangtua') {
 
-            // hanya boleh miliknya sendiri
             if ($pengaduan->user_id != $user->user_id) {
                 abort(403);
             }
 
-            // hanya bisa jika belum diproses
             if ($pengaduan->status !== 'tertunda') {
                 return back()->with('error', 'Pengaduan tidak bisa dibatalkan');
             }
 
-            // 🔥 update status + soft delete
             $pengaduan->update([
                 'status' => 'dibatalkan'
+            ]);
+
+            // 🔥 riwayat
+            RiwayatStatus::create([
+                'pengaduan_id' => $pengaduan->pengaduan_id,
+                'status'       => 'dibatalkan',
+                'tanggal_ubah' => now(),
+                'diubah_oleh'  => $user->user_id,
             ]);
 
             $pengaduan->delete();
@@ -172,7 +178,6 @@ class PengaduanController extends Controller
     {
         $pengaduan = Pengaduan::findOrFail($id);
 
-        // 🔒 hanya pemilik yang boleh
         if ($pengaduan->user_id != auth()->user()->user_id) {
             abort(403);
         }
@@ -189,22 +194,68 @@ class PengaduanController extends Controller
             $pengaduan->update([
                 'status' => 'dalam_proses'
             ]);
+
+            // 🔥 riwayat ulang
+            RiwayatStatus::create([
+                'pengaduan_id' => $pengaduan->pengaduan_id,
+                'status'       => 'dalam_proses',
+                'tanggal_ubah' => now(),
+                'diubah_oleh'  => auth()->user()->user_id,
+            ]);
         }
 
         return back()->with('success', 'Konfirmasi berhasil dikirim!');
     }
 
     public function detail($id)
-{
-    $pengaduan = Pengaduan::with('rating')
-        ->where('pengaduan_id', $id)
-        ->firstOrFail();
+    {
+        $pengaduan = Pengaduan::with('rating')
+            ->where('pengaduan_id', $id)
+            ->firstOrFail();
 
-    $pengaduanLain = Pengaduan::where('pengaduan_id', '<>', $id)
-        ->orderByDesc('tanggal_dibuat')
-        ->limit(5)
-        ->get();
+        $pengaduanLain = Pengaduan::where('pengaduan_id', '<>', $id)
+            ->orderByDesc('tanggal_dibuat')
+            ->limit(5)
+            ->get();
 
-    return view('layouts.part.detail', compact('pengaduan', 'pengaduanLain'));
+        return view('layouts.part.detail', compact('pengaduan', 'pengaduanLain'));
+    }
+
+    // ✅ FITUR BARU: TOLAK PENGADUAN
+    public function tolak(Request $request, $id)
+    {
+        abort_if(!in_array(auth()->user()->peran, ['admin', 'petugas']), 403);
+
+        $request->validate([
+            'alasan_ditolak' => 'required|string|max:500'
+        ]);
+
+        $pengaduan = Pengaduan::findOrFail($id);
+
+        // ❌ tidak boleh tolak kalau sudah selesai
+        if (in_array($pengaduan->status, ['selesai', 'ditolak', 'dibatalkan'])) {
+            return back()->with('error', 'Pengaduan tidak bisa ditolak');
+        }
+
+        $pengaduan->update([
+            'status' => 'ditolak',
+            'alasan_ditolak' => $request->alasan_ditolak
+        ]);
+
+        // 🔥 simpan riwayat
+        RiwayatStatus::create([
+            'pengaduan_id' => $pengaduan->pengaduan_id,
+            'status' => 'ditolak',
+            'tanggal_ubah' => now(),
+            'diubah_oleh' => auth()->user()->user_id,
+        ]);
+
+        Notifikasi::create([
+            'user_id' => $pengaduan->user_id,
+            'pengaduan_id' => $pengaduan->pengaduan_id,
+            'pesan' => 'Pengaduan Anda ditolak. Alasan: ' . $request->alasan_ditolak
+        ]);
+
+        return back()->with('success', 'Pengaduan berhasil ditolak');
     }
 }

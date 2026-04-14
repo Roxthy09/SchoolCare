@@ -12,7 +12,6 @@ use App\Http\Controllers\{
     ProfileController,
     WelcomeController,
     RatingController,
-
 };
 use App\Models\Notifikasi;
 use Illuminate\Support\Facades\Route;
@@ -122,7 +121,8 @@ Route::middleware(['auth', 'role:admin'])
 
         Route::get('pengaduan/{id}', [PengaduanController::class, 'show'])
             ->name('admin.pengaduan.show');
-
+        Route::post('/pengaduan/tolak/{id}', [PengaduanController::class, 'tolak'])
+            ->name('pengaduan.tolak');
         Route::post(
             'pengaduan/{pengaduan}/status',
             [PengaduanController::class, 'updateStatus']
@@ -162,12 +162,14 @@ Route::middleware(['auth', 'role:petugas'])
             ->name('show', 'petugas.pengaduan.show')
             ->name('edit', 'petugas.pengaduan.edit')
             ->name('update', 'petugas.pengaduan.update');
-
+        Route::post('/pengaduan/tolak/{id}', [PengaduanController::class, 'tolak'])
+            ->name('pengaduan.tolak');
         Route::post(
             'pengaduan/{pengaduan}/status',
             [PengaduanController::class, 'updateStatus']
         )->name('petugas.pengaduan.status');
-
+        Route::post('/pengaduan/tolak/{id}', [PengaduanController::class, 'tolak'])
+            ->name('pengaduan.tolak');
         Route::post('tanggapan', [TanggapanController::class, 'store'])
             ->name('petugas.tanggapan.store');
     });
