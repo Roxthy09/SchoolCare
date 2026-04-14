@@ -13,7 +13,23 @@ class KategoriSeeder extends Seeder
             'Fasilitas',
             'Akademik',
             'Keamanan',
-            'Administrasi'
+            'Administrasi',
+            'Kebersihan',
+            'Kesehatan',
+            'Transportasi',
+            'Kantin',
+            'Laboratorium',
+            'Perpustakaan',
+            'Teknologi Informasi',
+            'Parkir',
+            'Pembangunan',
+            'Ekstrakurikuler',
+            'Kurikulum',
+            'Kesiswaan',
+            'Kepala Sekolah',
+            'Karyawan',
+            'Pengajaran',
+            'Hubungan Orangtua'
         ];
 
         foreach ($data as $nama) {

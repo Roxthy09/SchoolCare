@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Rating;
 use App\Models\Pengaduan;
 use Illuminate\Support\Facades\Auth;
+use App\Services\BadWordFilter;
 
 class RatingController extends Controller
 {
@@ -25,6 +26,13 @@ class RatingController extends Controller
             'rating' => 'required|integer|min:1|max:5',
             'komentar' => 'nullable|string'
         ]);
+
+             // Cek kata kasar di komentar
+        if ($request->filled('komentar') && BadWordFilter::contains($request->komentar)) {
+            return back()
+                ->withInput()
+                ->withErrors(['komentar' => 'Komentar mengandung kata yang tidak pantas. Mohon gunakan bahasa yang sopan.']);
+        }
 
         Rating::updateOrCreate(
             [

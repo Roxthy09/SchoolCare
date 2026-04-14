@@ -49,8 +49,7 @@
 
     <div class="main">
         @yield('content')
-        @include('layouts.part.cta')
-        @include('layouts.part.blog')
+            
     </div>
 
     <!--====== FOOTER PART START ======-->

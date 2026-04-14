@@ -33,6 +33,12 @@ Route::get('/test', function () {
     return 'OK';
 });
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
+Route::get('/pengaduan/detail/{id}', [PengaduanController::class, 'detail'])
+    ->middleware('auth')
+    ->name('pengaduan.detail');
+
+Route::get('/pengaduan/{id}', [PengaduanController::class, 'detail'])
+    ->name('pengaduan.show');
 
 
 Auth::routes();

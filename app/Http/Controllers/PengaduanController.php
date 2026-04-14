@@ -193,4 +193,18 @@ class PengaduanController extends Controller
 
         return back()->with('success', 'Konfirmasi berhasil dikirim!');
     }
+
+    public function detail($id)
+{
+    $pengaduan = Pengaduan::with('rating')
+        ->where('pengaduan_id', $id)
+        ->firstOrFail();
+
+    $pengaduanLain = Pengaduan::where('pengaduan_id', '<>', $id)
+        ->orderByDesc('tanggal_dibuat')
+        ->limit(5)
+        ->get();
+
+    return view('layouts.part.detail', compact('pengaduan', 'pengaduanLain'));
+    }
 }

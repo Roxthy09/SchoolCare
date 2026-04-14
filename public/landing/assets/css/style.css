@@ -809,6 +809,14 @@ p {
   height: 800px;
 }
 
+.header_hero-2 {
+  position: relative;
+    z-index: 5;
+    background-position: bottom center;
+    padding-top: 70px;
+    height: 420px
+}
+
 @media only screen and (min-width: 1400px) {
   .header_hero {
     height: 900px;
@@ -1444,7 +1452,122 @@ p {
     font-size: 11px;
   }
 }
+/* Hero Text */
+.pg-page-heading {
+    position: relative;
+    z-index: 10;
+    background: #f9fafb;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 20px 0;
+}
 
+.pg-page-heading-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 4px 0;
+}
+
+.pg-page-heading-sub {
+    font-size: 14px;
+    color: #6b7280;
+    margin: 0;
+}
+
+ .pg-detail-page {
+    background: transparent;
+    min-height: 100vh;
+    padding-bottom: 60px;
+    margin-top: -700px;  /* tarik ke atas menimpa hero */
+    position: relative;
+    z-index: 10;         /* pastikan di atas shape */
+}
+
+.pg-detail-layout {
+    display: grid;
+    grid-template-columns: 1fr 380px; /* sidebar dari 320px → 380px */
+    gap: 32px;                         /* gap dari 24px → 32px */
+    margin-top: 32px;
+    padding-top: 20px;
+    max-width: 1400px;                 /* tambahkan ini */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.pg-detail-card {
+    background: #fff;
+    border-radius: 20px;              /* dari 16px */
+    padding: 32px 36px;               /* dari 24px 28px */
+    margin-bottom: 24px;              /* dari 20px */
+    border: 1px solid #e5e7eb;
+}
+
+.pg-detail-card-label {
+    font-size: 13px;                  /* dari 12px */
+    font-weight: 700;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 20px;              /* dari 16px */
+    padding-bottom: 14px;             /* dari 12px */
+    border-bottom: 1px solid #f3f4f6;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.pg-detail-desc {
+    font-size: 17px;                  /* dari 15px */
+    color: #374151;
+    line-height: 1.9;                 /* dari 1.8 */
+}
+
+.pg-sidebar-card {
+    background: #fff;
+    border-radius: 20px;              /* dari 16px */
+    padding: 24px 26px;               /* dari 20px */
+    border: 1px solid #e5e7eb;
+    margin-bottom: 24px;
+}
+
+.pg-sidebar-card-title {
+    font-size: 13px;                  /* dari 12px */
+    font-weight: 700;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.pg-info-label {
+    font-size: 14px;                  /* dari 13px */
+    color: #9ca3af;
+}
+
+.pg-info-value {
+    font-size: 14px;                  /* dari 13px */
+    font-weight: 500;
+    color: #374151;
+}
+
+.pg-btn-primary {
+    padding: 14px 28px;               /* dari 12px 24px */
+    font-size: 15px;                  /* dari 14px */
+    border-radius: 14px;              /* dari 12px */
+}
+
+.pg-tl-title {
+    font-size: 15px;                  /* dari 14px */
+    font-weight: 600;
+    color: #111827;
+}
+
+.pg-tl-date {
+    font-size: 13px;                  /* dari 12px */
+    color: #9ca3af;
+}
 /*===========================
         11.BLOG css 
 ===========================*/

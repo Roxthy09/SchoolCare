@@ -23,7 +23,7 @@
   <!-- End layout styles -->
   <link rel="shortcut icon" href="{{asset('admin/assets/images/favicon.png')}}" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-  
+  @stack('styles')
 </head>
 
 <body>

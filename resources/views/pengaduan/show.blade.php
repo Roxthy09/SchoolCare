@@ -102,7 +102,7 @@ $isOrangtua = auth()->user()->peran === 'orangtua';
                     @include('tanggapan._form')
                     @endif
                 </div>
-                @if($pengaduan->status == 'selesai' && ($pengaduan->konfirmasi_orangtua == 'menunggu' || is_null($pengaduan->konfirmasi_orangtua)))
+                @if($isOrangtua && $pengaduan->status == 'selesai' && ($pengaduan->konfirmasi_orangtua == 'menunggu' || is_null($pengaduan->konfirmasi_orangtua)))
 
                 <div class="card mt-4">
                     <div class="card-body">

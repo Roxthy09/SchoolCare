@@ -17,16 +17,16 @@ class UserSeeder extends Seeder
          // Buat Admin
     User::create([
         'name' => 'Administrator',
-        'email' => 'admin@gmail.com',
-        'password' => Hash::make('password'),
+        'email' => 'admin@schoolcare.sch.id',
+        'password' => Hash::make('schoolcare.admin'),
         'peran' => 'admin',
     ]);
 
     // Buat Petugas
     User::create([
         'name' => 'Petugas Ujikom',
-        'email' => 'petugas@gmail.com',
-        'password' => Hash::make('password'),
+        'email' => 'petugas@schoolcare.sch.id',
+        'password' => Hash::make('schoolcare.petugas'),
         'peran' => 'petugas',
     ]);
 

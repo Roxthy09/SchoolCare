@@ -46,16 +46,6 @@
                     {{-- HEADER --}}
                     <div class="d-flex justify-content-between align-items-center p-3">
                         <h6 class="mb-0 fw-bold">Notifikasi</h6>
-
-                        <div class="d-flex gap-2">
-                            <button onclick="markAllRead()" class="btn btn-sm btn-light">
-                                Tandai semua
-                            </button>
-
-                            <button onclick="hapusSemuaNotif()" class="btn btn-sm btn-danger">
-                                Hapus Semua
-                            </button>
-                        </div>
                     </div>
 
                     <div class="dropdown-divider"></div>

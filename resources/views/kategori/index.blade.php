@@ -75,4 +75,54 @@
     </div>
 
 </div>
+
+@push('styles')
+<style>
+  /* Pagination wrapper */
+  .pagination {
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+
+  /* Setiap item */
+  .pagination .page-item .page-link {
+    border-radius: 8px !important;
+    border: 0.5px solid #e0e0e0;
+    color: #444;
+    font-size: 13px;
+    font-weight: 500;
+    min-width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+    transition: all 0.15s ease;
+    background: #fff;
+    box-shadow: none;
+  }
+
+  /* Hover */
+  .pagination .page-item .page-link:hover {
+    background: #f0f4ff;
+    border-color: #4f6ef7;
+    color: #4f6ef7;
+  }
+
+  /* Halaman aktif */
+  .pagination .page-item.active .page-link {
+    background: #4f6ef7;
+    border-color: #4f6ef7;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(79, 110, 247, 0.3);
+  }
+
+  /* Disabled (prev/next nonaktif) */
+  .pagination .page-item.disabled .page-link {
+    background: #f8f8f8;
+    border-color: #eee;
+    color: #bbb;
+  }
+</style>
+@endpush
 @endsection

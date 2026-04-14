@@ -5,12 +5,16 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use App\Models\Notifikasi;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 
 class AppServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
+
+    Paginator::useBootstrap();
+
         View::composer('*', function ($view) {
 
             if (auth()->check()) {
