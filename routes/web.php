@@ -4,7 +4,7 @@ use App\Http\Controllers\{
     KategoriController,
     PengaduanController,
     TanggapanController,
-    OrangtuaController,
+    OrangTuaController,
     AuthController,
     UserImportController,
     UserController,
@@ -114,7 +114,7 @@ Route::middleware(['auth', 'role:admin'])
             ->name('admin.dashboard');
 
         Route::resource('kategori', KategoriController::class);
-        Route::resource('orangtua', OrangtuaController::class);
+        Route::resource('orangtua', OrangTuaController::class);
 
         Route::get('pengaduan', [PengaduanController::class, 'index'])
             ->name('admin.pengaduan.index');
@@ -136,7 +136,7 @@ Route::middleware(['auth', 'role:admin'])
         Route::post('/users/import', [UserImportController::class, 'import'])
             ->name('users.import');
 
-        Route::post('/orangtua/import', [OrangtuaController::class, 'import'])
+        Route::post('/orangtua/import', [OrangTuaController::class, 'import'])
             ->name('orangtua.import');
 
         Route::resource('users', UserController::class);
